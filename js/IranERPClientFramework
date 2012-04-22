@@ -1,0 +1,23 @@
+IranERP Client Framework
+------------------------
+our javascript classes are 
+
+1. IRERPJS_DataViewSection
+2. IRERPJS_Page
+
+these classes mission is manage all client side events.
+
+Theoritical Definitions:
+each page contains many DataViewSection
+each DataViewSection Contains Form,Grid,Commanders
+commanders are any control make an action, Button can be commander,menu can be commander , so on.
+We Define 5 type of standard commanders, they are:
+1. New    Commander 
+2. Edit   Commander
+3. Save   Commander
+4. Delete Commander
+5. Cancel Commander
+user can define hisown commander for custom operation.
+
+Page contains a Master DataViewSection And Many Detail DataViewSections
+ 

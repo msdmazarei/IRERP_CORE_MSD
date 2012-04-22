@@ -1,0 +1,1 @@
+isc.ClassFactory.defineClass('IRAppFrame', isc.VLayout);
