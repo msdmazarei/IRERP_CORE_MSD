@@ -11,7 +11,7 @@ use IRERP\modules\jahad\models\Magazine;
 use IRERP\modules\jahad\models\Matter;
 use IRERP\modules\jahad\models\Nationality;
 use IRERP\Basics\SmartClient\SmartClientController;
-use \IRERP\models\MenuItem,
+use \IRERP\modules\admin\models\MenuItem,
 	\IRERP\modules\jahad\models\TVRD,
 	\IRERP\modules\jahad\models\Matter as mats,
 	\IRERP\modules\jahad\models\Title,

@@ -34,6 +34,7 @@ return array(
 		'jahad',
 		'reporting',
 		'baseresources',
+		'admin',
 	),
 
 	// application components

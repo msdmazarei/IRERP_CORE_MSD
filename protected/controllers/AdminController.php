@@ -20,10 +20,12 @@ class AdminController extends SmartClientController
 		$DBClasses=array();
 		$modules=array(
 						'jahad'=>'\\IRERP\\modules\\jahad\\models\\',
-						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\');
+						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\',
+						'admin'=>'\\IRERP\\modules\\admin\\models\\'
+		);
 		
 		$DBClasses[]='\\IRERP\\Basics\\Models\\BasicNamedClass';
-		$DBClasses[]='\\IRERP\\models\\MenuItem';
+		//$DBClasses[]='\\IRERP\\modules\\models\\MenuItem';
 		
 		$BasicPath = \Yii::app()->basePath;
 		$ModulePath= $BasicPath.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
@@ -55,10 +57,12 @@ class AdminController extends SmartClientController
 		$DBClasses=array();
 		$modules=array(
 						'jahad'=>'\\IRERP\\modules\\jahad\\models\\',
-						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\');
+						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\',
+						'admin'=>'\\IRERP\\modules\\admin\\models\\',
+		);
 		
 		$DBClasses[]='\\IRERP\\Basics\\Models\\BasicNamedClass';
-		$DBClasses[]='\\IRERP\\models\\MenuItem';
+		//$DBClasses[]='\\IRERP\\models\\MenuItem';
 		
 		$BasicPath = \Yii::app()->basePath;
 		$ModulePath= $BasicPath.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
@@ -90,7 +94,10 @@ class AdminController extends SmartClientController
 		$DBClasses=array();
 		$modules=array(
 						'jahad'=>'\\IRERP\\modules\\jahad\\models\\',
-						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\');
+						'baseresources'=>'\\IRERP\\modules\\baseresources\\models\\',
+						'admin'=>'\\IRERP\\modules\\admin\\models\\',
+		
+		);
 		
 		$DBClasses[]='\\IRERP\\Basics\\Models\\BasicNamedClass';
 		$DBClasses[]='\\IRERP\\models\\MenuItem';

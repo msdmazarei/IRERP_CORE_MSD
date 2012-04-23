@@ -295,8 +295,11 @@ abstract class AdvanceEntityController extends EntityController
 	
 			$cls->Save($em);
 			$em->flush();
-			
-			$DS=\IRERP\Utils\GenerationHelper::GetDataSource($className, $jtb->getPropClassProfile());
+			if(isset($jtb))
+				$DS=\IRERP\Utils\GenerationHelper::GetDataSource($className, $jtb->getPropClassProfile());
+			else 
+				$DS=\IRERP\Utils\GenerationHelper::GetDataSource($className, NULL);
+				
 			$this->SmartClientRespond($cls->GetClassSCPropertiesInArray_Advance($DS));
 	
 		} catch(Exception $e) {
@@ -764,6 +767,7 @@ abstract class AdvanceEntityController extends EntityController
 	
 	protected function renderView()
 	{
+		
 		$this->viewVars['dsMaster'] = $this->getId();
 			$this->layout=\IRERP\Utils\ClientEngineHelper::GetDefaultTemplate();
 		try {

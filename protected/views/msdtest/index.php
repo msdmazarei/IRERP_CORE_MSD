@@ -124,7 +124,7 @@ isc.Menu.create({
         {title: "New", keyTitle: "Ctrl+N", icon: "icons/16/document_plain_new.png",click:function(){jsIRERP.OpenTab(baseurl+'baseresources/CharacterTitle');}},
         {title: "Open", keyTitle: "Ctrl+O", icon: "icons/16/folder_out.png",click:function(){jsIRERP.OpenTab(baseurl+'baseresources/Human');}},
         {isSeparator: true},
-        {title: "Save", keyTitle: "Ctrl+S", icon: "icons/16/disk_blue.png"},
+        {title: "Menu", keyTitle: "Ctrl+S", icon: "icons/16/disk_blue.png",click:function(){jsIRERP.OpenTab(baseurl+'admin/Menu');}},
         {title: "Save As", icon: "icons/16/save_as.png"},
         {isSeparator: true},
         {title: "Recent Documents", icon: "icons/16/folder_document.png", submenu: [

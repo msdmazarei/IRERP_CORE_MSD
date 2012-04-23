@@ -1,8 +1,31 @@
 <?php
 namespace IRERP\models;
 
-use IRERP\Basics\Models\IRDataModel,
-	 IRERP\Basics\Annotations\scField;
+use IRERP\Basics\Models\IRDataModel;
+use 
+IRERP\Basics\Annotations\UI\IRUseInClientDS,
+IRERP\Basics\Annotations\UI\IRClientName,
+IRERP\Basics\Annotations\UI\IRTitle,
+IRERP\Basics\Annotations\UI\IRPropertyType,
+IRERP\Basics\Annotations\UI\IRParentGridMember,
+IRERP\Basics\Annotations\UI\IRPickListMember,
+IRERP\Basics\Annotations\UI\IRUseAsProfile,
+IRERP\Basics\Annotations\UI\IRPrimaryKey,
+IRERP\Basics\Annotations\UI\IRHidden,
+IRERP\Basics\Annotations\UI\IREnumRelation,
+\IRERP\Basics\Annotations\UI\IRRequire,
+\IRERP\Basics\Annotations\UI\IRInternalType
+;
+
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+
 
 /**
  * @Entity @Table(name="MenuItem")
@@ -12,6 +35,13 @@ class MenuItem extends IRDataModel
 	/**
 	 * @Column(type="string",length=50)
 	 * @var string
+	 * -----------
+	 * Client Side Definations
+	 * -----------
+	 * @IRUseInClientDS
+	 * @IRRequire
+	 * @IRTitle(TitleType="STRING",Value="عنوان منو")
+	 * @IRPropertyType(Type="string")
 	 */
 	protected $Title;
 	
@@ -19,12 +49,28 @@ class MenuItem extends IRDataModel
 	 * @Column(type="string",length="1500")
 	 * Enter Icon for MenuItem
 	 * @var string
+	 * -----------
+	 * Client Side Definations
+	 * -----------
+	 * @IRUseInClientDS(NotForProfile="SIMPLE")
+	 * @IRTitle(TitleType="STRING",Value="شمایل")
+	 * @IRPropertyType(Type="string")
 	 */
 	protected $Icon;
 	
 	/**
 	 * @ManyToOne(targetEntity="MenuItem",inversedBy="Children")
 	 * @var MenuItem
+	 * -----------
+	 * Client Side Definations
+	 * -----------
+	 * @IRUseInClientDS(NotForProfile="SIMPLE")
+	 * @IRTitle(TitleType="STRING",Value="منو پدر")
+	 * -----------
+	 * Internal Relation Definations
+	 * -----------
+	 * @IRUseAsProfile(TargetProfile="SIMPLE")
+	 * @IRInternalType(ClassName="\IRERP\models\MenuItem",RelationType="Simple") 
 	 */
 	protected $Parent;
 	
@@ -36,71 +82,14 @@ class MenuItem extends IRDataModel
 	
 	/**
 	 * @Column(type="string",length=500)
+	 * -----------
+	 * Client Side Definations
+	 * -----------
+	 * @IRUseInClientDS(NotForProfile="SIMPLE")
+	 * @IRTitle(TitleType="STRING",Value="دستور")
+	 * @IRPropertyType(Type="string")
 	 */
 	protected $Command;
-	
-	/**
-	 * 
-	 * BL Functions
-	 * @scField(name="Title",DoctrineField="Title",
-	 * 			type="string",length="100",title="عنوان منو")
-	 */
-	public function getTitle(){return $this->Title;}
-	public function setTitle($value){$this->Title=$value;}
-	/**
-	 * 
-	 * @scField(name="IconPath",DoctrineField="Icon",
-	 * 			type="string",length="500",title="مسیر آیکون")
-	 */
-	public function getIcon(){return $this->Icon;}
-	public function setIcon($value){$this->Icon=$value;}
-	/**
-	 * @scField(name="Command",DoctrineField="Command",type="string",length=200,title="دستور منو") 
-	 */
-	public function getCommand(){return $this->Command;}
-	public function setCommand($value){$this->Command=$value;}
-	
-	
-	/**
-	 * 
-	 * @scField(name="ParentTitle",DoctrineField="Parent.Title",type="string",length=100,title="منوی پدر")
-	 */
-	public function getParentTitle(){
-		if ($this->getParent()==null) return '';
-		return $this->getParent()->getTitle();
-	}
-	public function setParentTitle($v){}
-	/**
-	 * @scField(name="ParentId",DoctrineField="Parent",foreignKey="Id",hidden=true)
-	 * Enter description here ...
-	 */	
-	public function getParentId(){
-		if (($parent = $this->getParent()) == null)
-			return NULL;
-		else
-			return $parent->getid();
-	}
-	public function setParentById($value){
-		//Check That there is an object with this ID
-		$parent = $this->GetByID($value);
-		if($parent!=NULL)
-			$this->setParent($parent);
-		else
-			$this->setParent(NULL);
-	}
-	
-	/**
-	 * @scField(name="IsSubmenu", type="bool") 
-	 * @return bool
-	 */
-	public function getIsSubmenu(){
-		return (count($this->Children) > 0);
-	}
-	public function getChildren(){return $this->Children;}
-	public function setChildren($value){$this->Children=$value;}
-	
-	public function getParent(){return $this->Parent;}
-	public function setParent($value){$this->Parent=$value;}
 	
 }
 ?>

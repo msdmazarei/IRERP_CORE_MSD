@@ -615,7 +615,7 @@ public function __construct($em=NULL)
 				$NewFieldName=$Alias.".".$sparr[count($sparr)-1];
 				$NEWorderBy[$NewFieldName]=$st;
 			}else{
-				$NEWorderBy[$fn]=$st;
+				$NEWorderBy["tmp.".$fn]=$st;
 			} 
 		}
 		//Do Same Thing For Where
@@ -679,6 +679,7 @@ public function __construct($em=NULL)
 		$whstr		=	$GetTabNameFuncRes['Where'];
 		
 		
+		
 		$qb = $em->createQueryBuilder();
 		if(!isset($joinedTable)){
 		$qb->add('select', 'tmp')
@@ -738,7 +739,7 @@ public function __construct($em=NULL)
 				$qb->add('where','tmp.IsDeleted =0');
 		
 		$query = $qb->getQuery();
-		/*if($whstr!='') {
+		/*if(count($orderby)!='') {
 			print_r($query);
 			print_r($query->getSQL());
 			die;}*/
