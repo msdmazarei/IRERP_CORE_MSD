@@ -575,7 +575,7 @@ IRERPJS_Page.prototype.AfterEventManager = function(e,s,p){}
  * Event Manager of Page,
  * All Events that occure in page pass to this function
  */
-IRERPJS_Page.prototype.EventManager=function(eventname,sender,param){
+IRERPJS_Page.prototype.EventManager=function(eventname,sender,param,args){
 	if(!this.BeforeEventManager(eventname, sender, param)) return;
 	switch(eventname)
 	{
@@ -585,6 +585,12 @@ IRERPJS_Page.prototype.EventManager=function(eventname,sender,param){
 		 */
 		var form=param;
 		this.SaveForm(form);
+		break;
+	case 'OnGridRecordDblClick':
+		/**
+		 * param is DVS
+		 */
+		this.OnEDITCommand(param);
 		break;
 	case 'OnGridRecordClick':
 		/**
