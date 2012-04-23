@@ -16,8 +16,7 @@ class ServerCacheHelper extends HelperBaseClass
 	 */
 	public static function Cache($CacheId,$Variable,$OverWrite=FALSE)
 	{
-
-		
+		if(\Yii::app()->params['ApplicationMode']=='Development') return true;
 		$CacheFolderPath = \Yii::app()->params['CacheFolder'];
 		$cachefilepath = $CacheFolderPath.$CacheId;
 		
@@ -47,6 +46,7 @@ class ServerCacheHelper extends HelperBaseClass
 	 */
 	public static  function GetFromCache($CacheId)
 	{
+		if(\Yii::app()->params['ApplicationMode']=='Development') return NULL;
 		$CacheFolderPath = \Yii::app()->params['CacheFolder'];
 		$cachefilepath = $CacheFolderPath.$CacheId;
 		if (ServerCacheHelper::VarExistInCache($CacheId))
@@ -64,6 +64,7 @@ class ServerCacheHelper extends HelperBaseClass
 	}
 	public static function VarExistInCache($CacheId)
 	{
+		if(\Yii::app()->params['ApplicationMode']=='Development') return FALSE;
 		$CacheFolderPath = \Yii::app()->params['CacheFolder'];
 		$cachefilepath = $CacheFolderPath.$CacheId;
 		if(file_exists($cachefilepath)) return true; else return FALSE;

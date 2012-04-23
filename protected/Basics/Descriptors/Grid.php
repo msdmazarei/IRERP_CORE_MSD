@@ -32,24 +32,9 @@ class Grid extends DescriptorBase
 			    $rtn.="width:\"100%\", height:\"100%\", alternateRecordStyles:true,";
 			    $rtn.="autoFetchData: true,";
 			    $rtn.="dataSource: ".$this->DataSource->getID().",";
-			    $rtn.="recordClick:function(){this.IRERPPage.EventManager('OnGridRecordClick',this,this.IRERPDVS);}";
-			    /*$rtn.="recordClick:\"this.FillForm()\",";
-			    $rtn.="FillForm:function()";
-			    $rtn.="{var record = this.getSelectedRecord();if (record == null) return ;";
-			    if($this->DataSource->getParentDataSource()==null)
-			    {
-			    	$rtn.="if(record.id!=FRM".$this->DataSource->getID().".getValues()['id'])";
-			    	$rtn.="{";
-			    	$rtn.="ChangesDetailMasterId(record.id);";
-			    	$rtn.="}";	
-			    }
-			    
-			     $rtn.="FRM".$this->DataSource->getID().".editRecord(record);";
-			    //if this is Master Grid, Change All  Details
-			    
-			    
-			    $rtn.="}";*/
-			    $rtn.=",});";
+			    $rtn.="recordClick:function(){this.IRERPPage.EventManager('OnGridRecordClick',this,this.IRERPDVS);},";
+			    $rtn.="recordDoubleClick:function(){this.IRERPPage.EventManager('OnGridRecordDblClick',this,this.IRERPDVS);},";
+			    $rtn.="});";
 			    return $rtn;
 				break;
 		}

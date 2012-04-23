@@ -144,6 +144,7 @@ return array(
 		'CacheFolder' => dirname(__FILE__).DIRECTORY_SEPARATOR.
 						'..'.DIRECTORY_SEPARATOR.
 						'runtime'.DIRECTORY_SEPARATOR.
-						'cache'.DIRECTORY_SEPARATOR
+						'cache'.DIRECTORY_SEPARATOR,
+		'ApplicationMode'=>'Development'
 	),
 );
