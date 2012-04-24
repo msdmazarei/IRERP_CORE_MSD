@@ -58,6 +58,54 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
         return parent::GetGeneralConfiguration();
     }
 
+    public function AddSaveValidation($ValidationID, $ValidationFunction)
+    {
+        $this->__load();
+        return parent::AddSaveValidation($ValidationID, $ValidationFunction);
+    }
+
+    public function RemoveSaveValidation($ValidationID)
+    {
+        $this->__load();
+        return parent::RemoveSaveValidation($ValidationID);
+    }
+
+    public function AddDeleteValidation($ValidationID, $ValidationFunction)
+    {
+        $this->__load();
+        return parent::AddDeleteValidation($ValidationID, $ValidationFunction);
+    }
+
+    public function RemoveDeleteValidation($ValidationID)
+    {
+        $this->__load();
+        return parent::RemoveDeleteValidation($ValidationID);
+    }
+
+    public function AddAddToMemberValidation($ValidationID, $ValidationFunction)
+    {
+        $this->__load();
+        return parent::AddAddToMemberValidation($ValidationID, $ValidationFunction);
+    }
+
+    public function RemoveAddToMemberValidation($ValidationID)
+    {
+        $this->__load();
+        return parent::RemoveAddToMemberValidation($ValidationID);
+    }
+
+    public function AddRemoveFromMemberValidation($ValidationID, $ValidationFunction)
+    {
+        $this->__load();
+        return parent::AddRemoveFromMemberValidation($ValidationID, $ValidationFunction);
+    }
+
+    public function RemoveRemoveFromMemberValidation($ValidationID)
+    {
+        $this->__load();
+        return parent::RemoveRemoveFromMemberValidation($ValidationID);
+    }
+
     public function setHelpField($v)
     {
         $this->__load();
@@ -206,6 +254,13 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
     {
         $this->__load();
         return parent::GetByID($id);
+    }
+
+    public function CheckValidationFor($OperationType, $Args = array (
+))
+    {
+        $this->__load();
+        return parent::CheckValidationFor($OperationType, $Args);
     }
 
     public function Save()

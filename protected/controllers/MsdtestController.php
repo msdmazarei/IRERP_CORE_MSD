@@ -9,6 +9,17 @@ use IRERP\Basics\SmartClient\SmartClientController;
 
 class MsdtestController extends EntityController
 {
+	public function actionLambda()
+	{
+		$funcs=array();
+		$funcs['func1']=function($a){return "Hello ".$a;};
+		$funcs['func2']=function($a,$b){return  $a.' '.$b;};
+		echo $funcs['func1']("Msoud");
+		echo $funcs['func2']("Salam","Nasim");
+		
+
+	}
+	
 	public function actionFilldb()
 	{
 		//Select Nationality

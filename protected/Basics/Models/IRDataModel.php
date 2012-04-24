@@ -1,6 +1,6 @@
 <?php
 namespace IRERP\Basics\Models;
-
+use IRERP\Basics\Validation\ModelValidationReturnClass;
 use IRERP\Utils\AnnotationHelper;
 
 use IRERP\Basics\Annotations\UI\IRInternalType;
@@ -167,6 +167,77 @@ class IRDataModel extends CModel
 	 * @var unknown_type
 	 */
 	protected $HelpField='';
+	
+	const SaveOperationValidKey="Save";
+	const DeleteOperationValidKey="Delete";
+	const AddToMemberOperationValidKey="AddToMember";
+	const RemoveFromMemberOperationValidKey="RemoveFromMember";
+	
+	
+	protected $OperationValidation = array(
+	self::SaveOperationValidKey=>array(),
+	self::DeleteOperationValidKey=>array(),
+	self::AddToMemberOperationValidKey=>array(),
+	self::RemoveFromMemberOperationValidKey=>array()
+	);
+	public function AddSaveValidation($ValidationID,$ValidationFunction)
+	{
+		/**
+		 * Validation Function form is :
+		 * function(IRDataModel $Cls) which return ModelValidationReturnClass 
+		 */
+		$this->OperationValidation[self::SaveOperationValidKey][$ValidationID]=$ValidationFunction;
+	}
+	public function RemoveSaveValidation($ValidationID)
+		{
+			$arr=$this->OperationValidation[self::SaveOperationValidKey];
+			if(key_exists($ValidationID, $arr)) 
+				unset($this->OperationValidation[self::SaveOperationValidKey][$ValidationID]);
+		}
+	public function AddDeleteValidation($ValidationID,$ValidationFunction)
+	{
+		/**
+		 * Validation Function form is :
+		 * function(IRDataModel $Cls) which return ModelValidationReturnClass 
+		 */
+		$this->OperationValidation[self::DeleteOperationValidKey][$ValidationID]=$ValidationFunction;
+	}
+	public function RemoveDeleteValidation($ValidationID)
+		{
+			$arr=$this->OperationValidation[self::DeleteOperationValidKey];
+			if(key_exists($ValidationID, $arr)) 
+				unset($this->OperationValidation[self::DeleteOperationValidKey][$ValidationID]);
+		}
+	public function AddAddToMemberValidation($ValidationID,$ValidationFunction)
+	{
+		/**
+		 * Validation Function form is :
+		 * function(IRDataModel $Cls,$Member,$Value) which return ModelValidationReturnClass 
+		 */
+		$this->OperationValidation[self::AddToMemberOperationValidKey][$ValidationID]=$ValidationFunction;
+	}
+	public function RemoveAddToMemberValidation($ValidationID)
+		{
+			$arr=$this->OperationValidation[self::AddToMemberOperationValidKey];
+			if(key_exists($ValidationID, $arr)) 
+				unset($this->OperationValidation[self::AddToMemberOperationValidKey][$ValidationID]);
+		}
+	public function AddRemoveFromMemberValidation($ValidationID,$ValidationFunction)
+	{
+		/**
+		 * Validation Function form is :
+		 * function(IRDataModel $Cls,$Member,$Value) which return ModelValidationReturnClass 
+		 */
+		$this->OperationValidation[self::RemoveFromMemberOperationValidKey][$ValidationID]=$ValidationFunction;
+	}
+	public function RemoveRemoveFromMemberValidation($ValidationID)
+		{
+			$arr=$this->OperationValidation[self::RemoveFromMemberOperationValidKey];
+			if(key_exists($ValidationID, $arr)) 
+				unset($this->OperationValidation[self::RemoveFromMemberOperationValidKey][$ValidationID]);
+		}
+	
+	
 	public function setHelpField($v){$this->HelpField=$v;}
    /**
 	 *@scField(name="HelpField") 
@@ -189,13 +260,38 @@ class IRDataModel extends CModel
 	
 	
 	public function AddToMember($MemberName,IRDataModel $Value){
+		$this->InitializeValidator();
 		$_1nPropName = NULL;
 		$_1nPropName=\ApplicationHelpers::GetPropertyInTargetFor1nRelation($this, $MemberName, $Value);
 		if(isset($_1nPropName)){
+			$CheckValidationRtn = 
+				$this->CheckValidationFor(
+					self::AddToMemberOperationValidKey,
+					array(	"Class"=>$this,
+							"MemberName"=>$MemberName,
+							"Value"=>$Value,
+							"AddToMemberType"=>"NOTENUM")
+					);
+		if(!$CheckValidationRtn->getSuccess()) 
+			throw $CheckValidationRtn->getException();
+		
+			
 			$Value->setClassMember($_1nPropName, $this,$Value);
 			$this->getClassMember($MemberName)->add($Value);
 			$Value->Save();
 		}else {
+			$CheckValidationRtn = 
+				$this->CheckValidationFor(
+					self::AddToMemberOperationValidKey,
+					array(	"Class"=>$this,
+							"MemberName"=>$MemberName,
+							"Value"=>$Value,
+							"AddToMemberType"=>"ENUM")
+					);
+		if(!$CheckValidationRtn->getSuccess()) 
+			throw $CheckValidationRtn->getException();
+		
+			
 
 		$this->getClassMember($MemberName)->add($Value);
 		$this->Save();
@@ -204,12 +300,49 @@ class IRDataModel extends CModel
 		//if Relation is n-1 And There Is 
 	}
 	public function AddToMemberENUM($MemberName,$Value){
+			$this->InitializeValidator();
+		$CheckValidationRtn = 
+			$this->CheckValidationFor(
+					self::AddToMemberOperationValidKey,
+					array(	"Class"=>$this,
+							"MemberName"=>$MemberName,
+							"Value"=>$Value,
+							"AddToMemberType"=>"ENUM")
+					);
+		if(!$CheckValidationRtn->getSuccess()) 
+			throw $CheckValidationRtn->getException();
+			
 		$this->getClassMember($MemberName)->add($Value);
 	}
 	public function RemoveFromMember_ENUM($MemberName,$Value){
+			$this->InitializeValidator();
+		$CheckValidationRtn = 
+			$this->CheckValidationFor(
+					self::RemoveFromMemberOperationValidKey,
+					array(	"Class"=>$this,
+							"MemberName"=>$MemberName,
+							"Value"=>$Value,
+							"AddToMemberType"=>"ENUM")
+					);
+		if(!$CheckValidationRtn->getSuccess()) 
+			throw $CheckValidationRtn->getException();
+
 		$this->getClassMember($MemberName)->removeElement($Value);
 	}
 	public function RemoveFromMember_Complete($MemberName,IRDataModel $Value){
+			$this->InitializeValidator();
+		$CheckValidationRtn = 
+			$this->CheckValidationFor(
+					self::RemoveFromMemberOperationValidKey,
+					array(	"Class"=>$this,
+							"MemberName"=>$MemberName,
+							"Value"=>$Value,
+							"AddToMemberType"=>"NOTENUM")
+					);
+		if(!$CheckValidationRtn->getSuccess()) 
+			throw $CheckValidationRtn->getException();
+		
+		
 		$this->getClassMember($MemberName)->removeElement($Value);
 		$Value->setIsDeleted(true);
 		$Value->Save();
@@ -404,16 +537,71 @@ class IRDataModel extends CModel
 	{
 		$this->getEntityManager()->persist($this);
 	}
+	/**
+	 * 
+	 * Check Validation For Specified Operator
+	 * @param string $OperationType -- by default use (Self::SaveOperationValidKey,....)
+	 * @param Array	$Args
+	 * @return ModelValidationReturnClass
+	 * @author Masoud Mazarei - Msd.Mazarei@Gmail.com
+	 */
+	public function CheckValidationFor($OperationType,$Args=array())
+	{
+		$rtn= new ModelValidationReturnClass();
+		$rtn->setSuccess(FALSE);
+		$rtn->setException(new \Exception("عملیات ناشناخته" . "IN IRDataModel, Function CheckValidtionFor"));
+		
+		switch($OperationType)
+		{
+			case self::SaveOperationValidKey:
+				foreach ($this->OperationValidation[self::SaveOperationValidKey] as $FuncName=>$Func)
+				{
+					$ValidationFuncRtn=$Func($Args);
+					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
+				}
+				$rtn->setSuccess(TRUE);
+				break;
+			case self::DeleteOperationValidKey:
+				foreach ($this->OperationValidation[self::DeleteOperationValidKey] as $FuncName=>$Func)
+				{
+					$ValidationFuncRtn=$Func($Args);
+					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
+				}
+				$rtn->setSuccess(TRUE);
+				break;
+			case self::AddToMemberOperationValidKey:
+				foreach ($this->OperationValidation[self::DeleteOperationValidKey] as $FuncName=>$Func)
+				{
+					$ValidationFuncRtn=$Func($Args);
+					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
+				}
+				$rtn->setSuccess(TRUE);
+				break;
+			case self::RemoveFromMemberOperationValidKey:
+				foreach ($this->OperationValidation[self::RemoveFromMemberOperationValidKey] as $FuncName=>$Func)
+				{
+					$ValidationFuncRtn=$Func($Args);
+					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
+				}
+				$rtn->setSuccess(TRUE);
+				break;
+		}
+		return $rtn;
+	}
+	protected $__InitializeValidator=FALSE;
+	protected function InitializeValidator(){$this->__InitializeValidator=TRUE;}
+	
 	public function Save()
 	{
+		//Check Validation
+		$this->InitializeValidator();
+		$Valid=$this->CheckValidationFor(self::SaveOperationValidKey,array("ClassToSave"=>$this));
+		if(!$Valid->getSuccess()) throw $Valid->getException();
 		$this->persistEntity();
 	}
-
-
+	//09374672471 Mr.Parsa
 	public function GetClassSCPropertiesInArray_Advance(DataSource $DS)
 	{
-		
-		//if(!isset($Profile) || !isset($ClassName)) return;
 		$rtnval=array();
 		$propref=new \ReflectionProperty(get_class($this), 'id');
 		$propref->setAccessible(true);
@@ -425,54 +613,31 @@ class IRDataModel extends CModel
 			
 			if($f=='id') continue;
 			$fieldName=$f->getFieldName();
-			/*$fieldName=str_replace('_', '\\', $fieldName);
-			$fieldName=urldecode($fieldName);
-			if(strpos($fieldName, '\\')>-1) $fieldName=substr($fieldName, strpos($fieldName, '.')+1);
-			*//*$fieldName=str_replace('.', '->', $fieldName);
-			$fieldName='$this->'.$fieldName;
-			print_r($fieldName.' TO EVAL . 	');
-			print_r($this->Title);
-			$ap='';
-			$b='$this->Title';
-			$a=eval($b);
-			print_r('eval1='.$a);
-			print_r('eval1='.$ap);
-			*/
 			try {
 				$fieldName=\ApplicationHelpers::TranslateFieldName_From_Client2Server($fieldName);
 				$parts=explode('.', $fieldName);
 				$PropValue=$this;
 				$propref=null;
-				//print_r($fieldName.':');
-				//print_r($parts);
 				try{
 				for ($i=0;$i<count($parts);$i++){
 					$_clsname = get_class($PropValue);
-					if(\ApplicationHelpers::IsORMProxyClass($_clsname)) $PropValue->DoctrineLoad();
+					if(\ApplicationHelpers::IsORMProxyClass($_clsname)) 
+						$PropValue->DoctrineLoad();
 					$propref=new \ReflectionProperty(get_class($PropValue), $parts[$i]);
-					
-					
-				//print_r('  |  Class:'.$propref->class.' prop:'. $propref->name.'  |   ');	
-				$propref->setAccessible(true);
-				if(isset($PropValue))
-					$PropValue=$propref->getValue($PropValue);
-				else 
-				{$PropValue=NULL;
-				//print_r('Break at '.$parts[$i]);
-				break;}
-				 	/*echo gettype($PropValue);
-				 	if(gettype($PropValue)=='object') echo 'Class:'.get_class($PropValue);
-				 	echo '***';*/
-				
+					$propref->setAccessible(true);
+
+					if(isset($PropValue))
+						$PropValue=$propref->getValue($PropValue);
+					else 
+					{$PropValue=NULL;break;}
 				}
+				
 				}catch(\Exception $e){
-					//print_r($e);
 					$PropValue=NULL;
 				}catch(\ReflectionException $ec){
-					//print_r($e);
 					$PropValue=NULL;
 				}
-				//print_r($PropValue);
+				
 				$rtnval[$f->getFieldName()]=$PropValue;
 			} catch (Exception $e) {
 				$rtnval[$f->getFieldName()]=null;
@@ -585,7 +750,7 @@ public function __construct($em=NULL)
 	 * @param array $ordery
 	 * @return array('TableName'=>$TableName,'OrderBy'=>$NEWorderBy,'Where'=>$NEWWhStr);
 	 */
-	protected function GetTableName($whstr='',$orderby=array())
+	protected function CorrectQueryInputs($whstr='',$orderby=array())
 	{
 		$TableName=get_class($this)." tmp";
 		$NEWorderBy=array();
@@ -672,7 +837,7 @@ public function __construct($em=NULL)
 		
 
 		$em = $this->entityManager;
-		$GetTabNameFuncRes=$this->GetTableName($whstr,$orderby);
+		$GetTabNameFuncRes=$this->CorrectQueryInputs($whstr,$orderby);
 
 		$TableName	=	$GetTabNameFuncRes['TableName'];
 		$orderby	=	$GetTabNameFuncRes['OrderBy'];
@@ -851,59 +1016,5 @@ public function __construct($em=NULL)
 		return self::$_names[$className];
 	}
 }
-/***
- * Old
- * /*
-function GetClassSCPropertiesInArray($ExceptedProperties=NULL)
-{
-$rtnval = array();
-	$isarray=is_array($ExceptedProperties);
-	$methods = get_class_methods($this);
-	foreach($methods as $m){
-		
-		if(substr($m,0,5)=='scget'){
-			$propname=substr($m,5);
-			
-			if($isarray){
-				//Check That propname exist in ExcepredProperties
-				if(in_array($propname,$ExceptedProperties)) continue;
-			}
-			
-			$rtnval[$propname]= call_user_func(array(&$this, $m));
-		}
-	}
-		
-return $rtnval;
-	
-}
 
-/*public function CreateClassFromScUsingMethod($functionName,$ExceptedProperties=NULL)
-	{
-	$isarray=is_array($ExceptedProperties);
-	$methods = get_class_methods($this);
-	foreach($methods as $m){
-		
-		if(substr($m,0,5)=='scset'){
-			$propname=substr($m,5);
-			
-			if($isarray){
-				//Check That propname exist in ExcepredProperties
-				if(in_array($propname,$ExceptedProperties)) continue;
-			}
-			$rtn = call_user_func($functionName,$propname);
-			//call_user_method($m,$this,$rtn);
-			call_user_func(array(&$this, $m),$rtn);
-		}
-		
-	}
-	}
-	public static function parseObjectToArray(){
-	/*$object = $this;
-    $array = array();
-    if (is_object($object)) {
-        $array = get_object_vars($object);
-    }
-    return $array;
-}
-*/
 ?>
