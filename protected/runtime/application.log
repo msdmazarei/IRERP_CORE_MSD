@@ -2923,3 +2923,173 @@ Stack trace:
 #11 /home/man-prim/www/IranERP/index.php(17): CApplication->run()
 #12 {main} REQUEST_URI=/IranERP/baseresources/Human/advjds/GENERAL/NONE/NONE
 2012/04/24 19:04:11 [trace] [system.CModule] Loading "errorHandler" application component
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "log" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "ir_ClassLoader" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [application] #@! -- IRClassLoader is Initializing
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [application] #@! -- IRClassLoader Initialized
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (11)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "request" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "urlManager" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.base.CModule] Loading "admin" module
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "doctrine" application component
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [application] #@! -- Request To Load IRERP\Basics\Annotations\UI\IRUIAnnotation --> /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRUIAnnotation.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRTitle.php (10)
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (22)
+2012/04/28 09:07:01 [trace] [application] init @@ init @@ init Doctrine
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (152)
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "messages" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [application] #@! -- Request To Load IRERP --> Failed.
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (39)
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [error] [php] include(IRERP.php): failed to open stream: No such file or directory (/home/man-prim/www/IranERP/framework/YiiBase.php:422)
+Stack trace:
+#0 unknown(0): spl_autoload_call()
+#1 /home/man-prim/www/IranERP/framework/i18n/CPhpMessageSource.php(99): ReflectionClass->__construct()
+#2 /home/man-prim/www/IranERP/framework/i18n/CPhpMessageSource.php(116): CPhpMessageSource->getMessageFile()
+#3 /home/man-prim/www/IranERP/framework/i18n/CMessageSource.php(102): CPhpMessageSource->loadMessages()
+#4 /home/man-prim/www/IranERP/framework/i18n/CMessageSource.php(84): CPhpMessageSource->translateMessage()
+#5 /home/man-prim/www/IranERP/framework/YiiBase.php(579): CPhpMessageSource->translate()
+#6 /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(9): t()
+#7 /home/man-prim/www/IranERP/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#8 /home/man-prim/www/IranERP/framework/web/CController.php(301): CInlineAction->runWithParams()
+#9 /home/man-prim/www/IranERP/framework/web/CController.php(279): DefaultController->runAction()
+#10 /home/man-prim/www/IranERP/framework/web/CController.php(258): DefaultController->runActionWithFilters()
+#11 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(277): DefaultController->run()
+#12 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(136): CWebApplication->runController()
+#13 /home/man-prim/www/IranERP/framework/base/CApplication.php(158): CWebApplication->processRequest()
+#14 /home/man-prim/www/IranERP/index.php(17): CWebApplication->run()
+REQUEST_URI=/IranERP/admin
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:07:01 [trace] [system.CModule] Loading "errorHandler" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "log" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "ir_ClassLoader" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [application] #@! -- IRClassLoader is Initializing
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [application] #@! -- IRClassLoader Initialized
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (11)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "request" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "urlManager" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.base.CModule] Loading "admin" module
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "doctrine" application component
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [application] #@! -- Request To Load IRERP\Basics\Annotations\UI\IRUIAnnotation --> /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRUIAnnotation.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRTitle.php (10)
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (22)
+2012/04/28 09:09:27 [trace] [application] init @@ init @@ init Doctrine
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (152)
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "messages" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [application] #@! -- Request To Load IRERP\Basics\Models\IRDataModel --> /home/man-prim/www/IranERP/protected/Basics/Models/IRDataModel.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/Basics/Models/BasicNamedClass.php (46)
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (33)
+2012/04/28 09:09:27 [trace] [application] #@! -- Request To Load IRERP\Basics\Models\BasicNamedClass --> /home/man-prim/www/IranERP/protected/Basics/Models/BasicNamedClass.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/modules/jahad/models/Matter.php (12)
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (33)
+2012/04/28 09:09:27 [trace] [application] #@! -- Request To Load IRERP\modules\jahad\models\Matter --> /home/man-prim/www/IranERP/protected/modules/jahad/models/Matter.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (12)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [application] #@! -- Request To Load IRERP\Basics\Descriptors\DescriptorBase --> /home/man-prim/www/IranERP/protected/Basics/Descriptors/DescriptorBase.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (12)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "viewRenderer" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (13)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "coreMessages" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (13)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:09:27 [error] [exception.CException] exception 'CException' with message 'DefaultController نمی تواند نمای در خواست شده "index" را پیدا کند' in /home/man-prim/www/IranERP/framework/web/CController.php:876
+Stack trace:
+#0 /home/man-prim/www/IranERP/framework/web/CController.php(780): CController->renderPartial('index', NULL, true)
+#1 /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(13): CController->render('index')
+#2 /home/man-prim/www/IranERP/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#3 /home/man-prim/www/IranERP/framework/web/CController.php(301): CInlineAction->runWithParams(Array)
+#4 /home/man-prim/www/IranERP/framework/web/CController.php(279): CController->runAction(Object(CInlineAction))
+#5 /home/man-prim/www/IranERP/framework/web/CController.php(258): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(277): CController->run('')
+#7 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(136): CWebApplication->runController('admin')
+#8 /home/man-prim/www/IranERP/framework/base/CApplication.php(158): CWebApplication->processRequest()
+#9 /home/man-prim/www/IranERP/index.php(17): CApplication->run()
+#10 {main} REQUEST_URI=/IranERP/admin
+2012/04/28 09:09:27 [trace] [system.CModule] Loading "errorHandler" application component
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "log" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "ir_ClassLoader" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [application] #@! -- IRClassLoader is Initializing
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (9)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [application] #@! -- IRClassLoader Initialized
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (11)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "request" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "urlManager" application component
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.base.CModule] Loading "admin" module
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "doctrine" application component
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [application] #@! -- Request To Load IRERP\Basics\Annotations\UI\IRUIAnnotation --> /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRUIAnnotation.php
+in /home/man-prim/www/IranERP/protected/extensions/IRext/IRLoader/IR_ClassLoader.php (34)
+in /home/man-prim/www/IranERP/protected/Basics/Annotations/UI/IRTitle.php (10)
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (22)
+2012/04/28 09:21:25 [trace] [application] init @@ init @@ init Doctrine
+in /home/man-prim/www/IranERP/protected/extensions/Wildkat/YiiExt/DoctrineOrm/DoctrineContainer.php (152)
+in /home/man-prim/www/IranERP/protected/components/IRController.php (30)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [error] [php] include(T.php): failed to open stream: No such file or directory (/home/man-prim/www/IranERP/framework/YiiBase.php:422)
+Stack trace:
+#0 /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(13) : eval()'d code(1): spl_autoload_call()
+#1 /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(13): eval()
+#2 /home/man-prim/www/IranERP/framework/web/actions/CInlineAction.php(50): DefaultController->actionIndex()
+#3 /home/man-prim/www/IranERP/framework/web/CController.php(301): CInlineAction->runWithParams()
+#4 /home/man-prim/www/IranERP/framework/web/CController.php(279): DefaultController->runAction()
+#5 /home/man-prim/www/IranERP/framework/web/CController.php(258): DefaultController->runActionWithFilters()
+#6 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(277): DefaultController->run()
+#7 /home/man-prim/www/IranERP/framework/web/CWebApplication.php(136): CWebApplication->runController()
+#8 /home/man-prim/www/IranERP/framework/base/CApplication.php(158): CWebApplication->processRequest()
+#9 /home/man-prim/www/IranERP/index.php(17): CWebApplication->run()
+REQUEST_URI=/IranERP/admin
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(13) : eval()'d code (1)
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (13)
+in /home/man-prim/www/IranERP/index.php (17)
+2012/04/28 09:21:25 [trace] [system.CModule] Loading "errorHandler" application component
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php(13) : eval()'d code (1)
+in /home/man-prim/www/IranERP/protected/modules/admin/controllers/DefaultController.php (13)
+in /home/man-prim/www/IranERP/index.php (17)

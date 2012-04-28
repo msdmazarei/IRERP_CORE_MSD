@@ -9,6 +9,8 @@ Yii::setPathOfAlias('BasePath', realpath(dirname(__FILE__) . '/../..'));
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'IranERP',
+	'sourceLanguage'=>'00',
+	'language'=>'fa_ir',
 
 	// preloading 'log' and 'irclassloader' components
 	'preload'=>array(

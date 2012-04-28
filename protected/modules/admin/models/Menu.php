@@ -1,6 +1,8 @@
 <?php
 namespace IRERP\modules\admin\models;
 
+use IRERP\Basics\Validation\ModelValidationReturnClass;
+
 use IRERP\Basics\Models\IRDataModel;
 use 
 IRERP\Basics\Annotations\UI\IRUseInClientDS,
@@ -32,6 +34,29 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class Menu extends IRDataModel
 {
+	protected function ValidFunc_ParentMenu($OpType,$Args)
+	{
+		$rtn=new ModelValidationReturnClass();
+		$rtn->setSuccess(FALSE);
+		$rtn->setException(new \Exception("Nothing in Menu Class Model in Admin Module", NULL, NULL));
+		if($OpType==IRDataModel::SaveOperationValidKey){
+			$Cls= $Args['ClassToSave'];
+			if($Cls!=NULL){
+				$MenuParent=$Cls->Parent;
+				while($MenuParent!=NULL){
+					if($MenuParent->getid()==$this->getid());
+				}
+				
+			}
+		}
+		return $rtn;
+	}
+	protected function InitializeValidator()
+	{
+		
+		$this->AddSaveValidation("ParentMenuCheck", $ValidationFunction);
+		parent::InitializeValidator();
+	}
 	/**
 	 * @Column(type="string",length=50)
 	 * @var string
@@ -73,6 +98,7 @@ class Menu extends IRDataModel
 	 * @IRInternalType(ClassName="\IRERP\modules\admin\models\Menu",RelationType="Simple") 
 	 */
 	protected $Parent;
+	public function getParent(){return $this->Parent;}
 	
 	/**
 	 * @OneToMany(targetEntity="Menu",mappedBy="Parent")

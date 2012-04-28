@@ -31,21 +31,6 @@ use Doctrine\ORM\Mapping\Table;
  */
 class Human extends MainCharacter
 {
-	protected function InitializeValidator()
-	{
-		$this->AddSaveValidation("Test", 
-			function($Args){
-				$a= new ModelValidationReturnClass();
-				$a->setException(new \Exception("MsdTest"));
-				if($Args['ClassToSave']->FatherName=="Gholi") 
-					$a->setSuccess(FALSE); 
-				else 
-				$a->setSuccess(TRUE);
-				return $a;
-			});
-		parent::InitializeValidator();
-		
-	}
 	/**
 	 * 
 	 * @Column(type = "string",length="50")
