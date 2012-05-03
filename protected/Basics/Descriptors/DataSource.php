@@ -149,6 +149,9 @@ class DataSource extends DescriptorBase
     					addDataURL   :"'.$this->getaddURL().'",
     					updateDataURL:"'.$this->getupdateURL().'",
     					removeDataURL:"'.$this->getremoveURL().'"';
+				$str.=",handleError:function(response,request){";
+				$str.="";
+				$str.="}";
 				$str.=' ,});';
 				return $str;
 				break;

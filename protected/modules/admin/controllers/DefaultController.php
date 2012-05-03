@@ -9,9 +9,9 @@ class DefaultController extends IRController
 {
 	public function actionIndex()
 	{
-		$b="function(){return IRERP\\Utils\\T::T('IRERP','msd');}";
-		$c= eval($b);
-		echo $c;
+		$b="";
+		eval("\$b=IRERP\\Utils\\T::T('IRERP','msd');");
+		echo $b;
 		die;
 		\Yii::app()->ir_ClassLoader->nop();
 		$b = new Matter();

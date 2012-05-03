@@ -34,31 +34,9 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class Menu extends IRDataModel
 {
-	protected function ValidFunc_ParentMenu($OpType,$Args)
-	{
-		$rtn=new ModelValidationReturnClass();
-		$rtn->setSuccess(FALSE);
-		$rtn->setException(new \Exception("Nothing in Menu Class Model in Admin Module", NULL, NULL));
-		if($OpType==IRDataModel::SaveOperationValidKey){
-			$Cls= $Args['ClassToSave'];
-			if($Cls!=NULL){
-				$MenuParent=$Cls->Parent;
-				while($MenuParent!=NULL){
-					if($MenuParent->getid()==$this->getid());
-				}
-				
-			}
-		}
-		return $rtn;
-	}
-	protected function InitializeValidator()
-	{
-		
-		$this->AddSaveValidation("ParentMenuCheck", $ValidationFunction);
-		parent::InitializeValidator();
-	}
+	
 	/**
-	 * @Column(type="string",length=50)
+	 * @Column(type="string",length=50,name="Title")
 	 * @var string
 	 * -----------
 	 * Client Side Definations
@@ -68,10 +46,11 @@ class Menu extends IRDataModel
 	 * @IRTitle(TitleType="STRING",Value="عنوان منو")
 	 * @IRPropertyType(Type="string")
 	 */
-	protected $Title;
-	
+	protected $_Title;
+	public function getTitle(){return $this->_Title;}
+	public function setTitle($value){$this->_Title=$value;}
 	/**
-	 * @Column(type="string",length="1500")
+	 * @Column(type="string",length="1500",name="Icon")
 	 * Enter Icon for Menu
 	 * @var string
 	 * -----------
@@ -81,7 +60,9 @@ class Menu extends IRDataModel
 	 * @IRTitle(TitleType="STRING",Value="شمایل")
 	 * @IRPropertyType(Type="string")
 	 */
-	protected $Icon;
+	protected $_Icon;
+	public function getIcon(){return $this->_Icon;}
+	public function setIcon($value){$this->_Icon=$value;}
 	
 	/**
 	 * @ManyToOne(targetEntity="Menu",inversedBy="Children")
@@ -97,17 +78,19 @@ class Menu extends IRDataModel
 	 * @IRUseAsProfile(TargetProfile="SIMPLE")
 	 * @IRInternalType(ClassName="\IRERP\modules\admin\models\Menu",RelationType="Simple") 
 	 */
-	protected $Parent;
-	public function getParent(){return $this->Parent;}
+	protected $_Parent;
+	public function getParent(){return $this->_Parent;}
+	public function setParent($value){$this->_Parent=$value;}
 	
 	/**
 	 * @OneToMany(targetEntity="Menu",mappedBy="Parent")
 	 * @var Menu[]
 	 */
-	protected $Children;
-	
+	protected $_Children;
+	public function getChildren(){return $this->_Children;}
+	public function setChildren($value){$this->_Children=$value;}
 	/**
-	 * @Column(type="string",length=500)
+	 * @Column(type="string",length=500,name="Command")
 	 * -----------
 	 * Client Side Definations
 	 * -----------
@@ -115,7 +98,19 @@ class Menu extends IRDataModel
 	 * @IRTitle(TitleType="STRING",Value="دستور")
 	 * @IRPropertyType(Type="string")
 	 */
-	protected $Command;
+	protected $_Command;
+	public function getCommand(){return $this->_Command;}
+	public function setCommand($value){$this->_Command=$value;}
+	
+	/****************************
+	 * Overrided Functions
+	 */
+	public function rules()
+	{
+	    return array(
+	        array('Title', 'required'),
+	    );
+	}
 	
 }
 ?>

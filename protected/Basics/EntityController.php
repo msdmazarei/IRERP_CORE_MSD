@@ -501,6 +501,7 @@ abstract class EntityController extends \IRController
 			$cls=$r->newInstance();
 			$cls->CreateClassFromScUsingMethod(array($this, 'getActionParam'));
 			$cls->Save();
+			if(count($cls->Errors)!=0) {print_r($cls->Errors);die;}
 			$em->flush();
 			$this->SmartClientRespond($cls->GetClassSCPropertiesInArray());
 		} catch(Exception $e) {

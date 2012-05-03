@@ -1,5 +1,9 @@
 <?php
 namespace IRERP\Basics\Models;
+use IRERP\Basics\IREvent;
+
+use IRERP\Utils\T;
+
 use IRERP\Basics\Validation\ModelValidationReturnClass;
 use IRERP\Utils\AnnotationHelper;
 
@@ -49,6 +53,14 @@ use Doctrine\ORM\Mapping\Entity;
  */
 class IRDataModel extends CModel
 {
+	const OWNCLASSERRORS='__OWN';
+	protected $_AutoValidate=TRUE;
+	public function getAutoValidate(){return $this->_AutoValidate;}
+	public function setAutoValidate($v){$this->_AutoValidate=$v;}
+	
+	public function getProfile(){return $this->getScenario();}
+	public function setProfile($value){$this->setScenario($value);}
+	
 	////////////////////////////////
 	/////// Doctrine Section
 	private $_entityPersister;
@@ -168,76 +180,6 @@ class IRDataModel extends CModel
 	 */
 	protected $HelpField='';
 	
-	const SaveOperationValidKey="Save";
-	const DeleteOperationValidKey="Delete";
-	const AddToMemberOperationValidKey="AddToMember";
-	const RemoveFromMemberOperationValidKey="RemoveFromMember";
-	
-	
-	protected $OperationValidation = array(
-	self::SaveOperationValidKey=>array(),
-	self::DeleteOperationValidKey=>array(),
-	self::AddToMemberOperationValidKey=>array(),
-	self::RemoveFromMemberOperationValidKey=>array()
-	);
-	public function AddSaveValidation($ValidationID,$ValidationFunction)
-	{
-		/**
-		 * Validation Function form is :
-		 * function(IRDataModel $Cls) which return ModelValidationReturnClass 
-		 */
-		$this->OperationValidation[self::SaveOperationValidKey][$ValidationID]=$ValidationFunction;
-	}
-	public function RemoveSaveValidation($ValidationID)
-		{
-			$arr=$this->OperationValidation[self::SaveOperationValidKey];
-			if(key_exists($ValidationID, $arr)) 
-				unset($this->OperationValidation[self::SaveOperationValidKey][$ValidationID]);
-		}
-	public function AddDeleteValidation($ValidationID,$ValidationFunction)
-	{
-		/**
-		 * Validation Function form is :
-		 * function(IRDataModel $Cls) which return ModelValidationReturnClass 
-		 */
-		$this->OperationValidation[self::DeleteOperationValidKey][$ValidationID]=$ValidationFunction;
-	}
-	public function RemoveDeleteValidation($ValidationID)
-		{
-			$arr=$this->OperationValidation[self::DeleteOperationValidKey];
-			if(key_exists($ValidationID, $arr)) 
-				unset($this->OperationValidation[self::DeleteOperationValidKey][$ValidationID]);
-		}
-	public function AddAddToMemberValidation($ValidationID,$ValidationFunction)
-	{
-		/**
-		 * Validation Function form is :
-		 * function(IRDataModel $Cls,$Member,$Value) which return ModelValidationReturnClass 
-		 */
-		$this->OperationValidation[self::AddToMemberOperationValidKey][$ValidationID]=$ValidationFunction;
-	}
-	public function RemoveAddToMemberValidation($ValidationID)
-		{
-			$arr=$this->OperationValidation[self::AddToMemberOperationValidKey];
-			if(key_exists($ValidationID, $arr)) 
-				unset($this->OperationValidation[self::AddToMemberOperationValidKey][$ValidationID]);
-		}
-	public function AddRemoveFromMemberValidation($ValidationID,$ValidationFunction)
-	{
-		/**
-		 * Validation Function form is :
-		 * function(IRDataModel $Cls,$Member,$Value) which return ModelValidationReturnClass 
-		 */
-		$this->OperationValidation[self::RemoveFromMemberOperationValidKey][$ValidationID]=$ValidationFunction;
-	}
-	public function RemoveRemoveFromMemberValidation($ValidationID)
-		{
-			$arr=$this->OperationValidation[self::RemoveFromMemberOperationValidKey];
-			if(key_exists($ValidationID, $arr)) 
-				unset($this->OperationValidation[self::RemoveFromMemberOperationValidKey][$ValidationID]);
-		}
-	
-	
 	public function setHelpField($v){$this->HelpField=$v;}
    /**
 	 *@scField(name="HelpField") 
@@ -260,93 +202,118 @@ class IRDataModel extends CModel
 	
 	
 	public function AddToMember($MemberName,IRDataModel $Value){
-		$this->InitializeValidator();
+
+		if($this->getAutoValidate())
+			if(!$Value->validate()) 
+			{
+				$this->addError(self::OWNCLASSERRORS, T::T('app','IRERP.IRDataModel.AddToMember.MemberNotValid'));
+				return;
+			} else;
+		else;
+		
 		$_1nPropName = NULL;
 		$_1nPropName=\ApplicationHelpers::GetPropertyInTargetFor1nRelation($this, $MemberName, $Value);
-		if(isset($_1nPropName)){
-			$CheckValidationRtn = 
-				$this->CheckValidationFor(
-					self::AddToMemberOperationValidKey,
-					array(	"Class"=>$this,
-							"MemberName"=>$MemberName,
-							"Value"=>$Value,
-							"AddToMemberType"=>"NOTENUM")
-					);
-		if(!$CheckValidationRtn->getSuccess()) 
-			throw $CheckValidationRtn->getException();
 		
-			
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array(
+							'MemberName'=>$MemberName,
+							'Value'=>$Value,
+							'1nPropName'=>$_1nPropName);
+		
+		$this->raiseEvent('onBeforeAddToMember', $event);
+		
+		if(isset($_1nPropName)){
 			$Value->setClassMember($_1nPropName, $this,$Value);
 			$this->getClassMember($MemberName)->add($Value);
 			$Value->Save();
 		}else {
-			$CheckValidationRtn = 
-				$this->CheckValidationFor(
-					self::AddToMemberOperationValidKey,
-					array(	"Class"=>$this,
-							"MemberName"=>$MemberName,
-							"Value"=>$Value,
-							"AddToMemberType"=>"ENUM")
-					);
-		if(!$CheckValidationRtn->getSuccess()) 
-			throw $CheckValidationRtn->getException();
-		
-			
-
 		$this->getClassMember($MemberName)->add($Value);
 		$this->Save();
 		}
+		
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array('MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onAfterAddToMember', $event);
+		
 		//Check For Relation Betweeen $Value Class And Member Class 
 		//if Relation is n-1 And There Is 
 	}
 	public function AddToMemberENUM($MemberName,$Value){
-			$this->InitializeValidator();
-		$CheckValidationRtn = 
-			$this->CheckValidationFor(
-					self::AddToMemberOperationValidKey,
-					array(	"Class"=>$this,
-							"MemberName"=>$MemberName,
-							"Value"=>$Value,
-							"AddToMemberType"=>"ENUM")
-					);
-		if(!$CheckValidationRtn->getSuccess()) 
-			throw $CheckValidationRtn->getException();
-			
-		$this->getClassMember($MemberName)->add($Value);
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array('MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onBeforeAddToMemberENUM', $event);
+		if(
+		 count($this ->getErrors())==0 
+		 			&&
+		 count($Value->getErrors())==0
+		 )
+			$this->getClassMember($MemberName)->add($Value);
+		
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array('MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onAfterAddToMemberENUM', $event);
+		
 	}
 	public function RemoveFromMember_ENUM($MemberName,$Value){
-			$this->InitializeValidator();
-		$CheckValidationRtn = 
-			$this->CheckValidationFor(
-					self::RemoveFromMemberOperationValidKey,
-					array(	"Class"=>$this,
-							"MemberName"=>$MemberName,
-							"Value"=>$Value,
-							"AddToMemberType"=>"ENUM")
-					);
-		if(!$CheckValidationRtn->getSuccess()) 
-			throw $CheckValidationRtn->getException();
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array(
+							'MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onBeforeRemoveFromMember_ENUM', $event);
+		
 
-		$this->getClassMember($MemberName)->removeElement($Value);
+		if(count($this->getErrors())==0)
+			$this
+				->getClassMember($MemberName)
+				->removeElement($Value);
+		
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array(
+							'MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onAfterRemoveFromMember_ENUM', $event);
+		
+		
 	}
 	public function RemoveFromMember_Complete($MemberName,IRDataModel $Value){
-			$this->InitializeValidator();
-		$CheckValidationRtn = 
-			$this->CheckValidationFor(
-					self::RemoveFromMemberOperationValidKey,
-					array(	"Class"=>$this,
-							"MemberName"=>$MemberName,
-							"Value"=>$Value,
-							"AddToMemberType"=>"NOTENUM")
-					);
-		if(!$CheckValidationRtn->getSuccess()) 
-			throw $CheckValidationRtn->getException();
 		
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array(
+							'MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onBeforeRemoveFromMember_Complete', $event);
 		
-		$this->getClassMember($MemberName)->removeElement($Value);
-		$Value->setIsDeleted(true);
-		$Value->Save();
-		$this->Save();
+		if(
+			count($this ->getErrors())==0
+						&&
+			count($Value->getErrors())==0
+		
+		){
+			$this
+				->getClassMember($MemberName)
+				->removeElement($Value);
+				
+			$Value->setIsDeleted(true);
+			$Value->Save();
+			$this->Save();
+		}
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array(
+							'MemberName'=>$MemberName,
+							'Value'=>$Value);
+		$this->raiseEvent('onAfterRemoveFromMember_Complete', $event);
+		
 		
 	}
 	
@@ -537,69 +504,42 @@ class IRDataModel extends CModel
 	{
 		$this->getEntityManager()->persist($this);
 	}
-	/**
-	 * 
-	 * Check Validation For Specified Operator
-	 * @param string $OperationType -- by default use (Self::SaveOperationValidKey,....)
-	 * @param Array	$Args
-	 * @return ModelValidationReturnClass
-	 * @author Masoud Mazarei - Msd.Mazarei@Gmail.com
-	 */
-	public function CheckValidationFor($OperationType,$Args=array())
-	{
-		$rtn= new ModelValidationReturnClass();
-		$rtn->setSuccess(FALSE);
-		$rtn->setException(new \Exception("عملیات ناشناخته" . "IN IRDataModel, Function CheckValidtionFor"));
-		
-		switch($OperationType)
-		{
-			case self::SaveOperationValidKey:
-				foreach ($this->OperationValidation[self::SaveOperationValidKey] as $FuncName=>$Func)
-				{
-					$ValidationFuncRtn=$Func($Args);
-					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
-				}
-				$rtn->setSuccess(TRUE);
-				break;
-			case self::DeleteOperationValidKey:
-				foreach ($this->OperationValidation[self::DeleteOperationValidKey] as $FuncName=>$Func)
-				{
-					$ValidationFuncRtn=$Func($Args);
-					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
-				}
-				$rtn->setSuccess(TRUE);
-				break;
-			case self::AddToMemberOperationValidKey:
-				foreach ($this->OperationValidation[self::DeleteOperationValidKey] as $FuncName=>$Func)
-				{
-					$ValidationFuncRtn=$Func($Args);
-					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
-				}
-				$rtn->setSuccess(TRUE);
-				break;
-			case self::RemoveFromMemberOperationValidKey:
-				foreach ($this->OperationValidation[self::RemoveFromMemberOperationValidKey] as $FuncName=>$Func)
-				{
-					$ValidationFuncRtn=$Func($Args);
-					if(!$ValidationFuncRtn->getSuccess()) return $ValidationFuncRtn;
-				}
-				$rtn->setSuccess(TRUE);
-				break;
-		}
-		return $rtn;
-	}
-	protected $__InitializeValidator=FALSE;
-	protected function InitializeValidator(){$this->__InitializeValidator=TRUE;}
 	
-	public function Save()
+	public function Save(array $attributes=NULL,$clearErrors=true)
 	{
-		//Check Validation
-		$this->InitializeValidator();
-		$Valid=$this->CheckValidationFor(self::SaveOperationValidKey,array("ClassToSave"=>$this));
-		if(!$Valid->getSuccess()) throw $Valid->getException();
-		$this->persistEntity();
+		/**
+		 * 
+		 * Save Algorithm
+		 * 1. Call onBeforeSave Event
+		 * 2. check that is there need to validate, if yes validate
+		 * 3. if there is no error save object
+		 * 4. Call onAfterSave Event
+		 * 
+		 */
+		
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array('attributes'=>$attributes,
+							'clearErrors'=>$clearErrors);
+		$this->raiseEvent('onBeforeSave', $event);
+		
+		if($this->getAutoValidate())
+			if($this->validate($attributes,$clearErrors))
+				$this->persistEntity();
+			else ;
+		else 
+		{
+			if(count($this->getErrors())==0) 
+				$this->persistEntity();
+		}
+
+		$event = new IREvent();
+		$event->sender=$this;
+		$event->params=array('attributes'=>$attributes,
+							 'clearErrors'=>$clearErrors);
+		$this->raiseEvent('onAfterSave', $event);
 	}
-	//09374672471 Mr.Parsa
+
 	public function GetClassSCPropertiesInArray_Advance(DataSource $DS)
 	{
 		$rtnval=array();
@@ -1015,6 +955,32 @@ public function __construct($em=NULL)
 		else
 		return self::$_names[$className];
 	}
+
+/**************************
+ * Override Functions
+ */
+	public function raiseEvent($name,$event)
+	{
+		if(!$this->hasEvent($name)) return;
+			parent::raiseEvent($name, $event);
+	}
+	
+	public function getAttributeLabel($attribute)
+	{
+		//get Attribute
+		$attribute='_'.$attribute; // Convert Bussiness Att Name to protected Att
+		//get Annotations
+		$Annots=AnnotationHelper::GetClassAnnotations(get_class($this), $this->Profile);
+		$attr_annots=$Annots['Properties'][$attribute];
+		if(isset($attr_annots))
+		{
+			//Get Title Annotation
+			$titannot = $attr_annots[get_class(new IRTitle(array()))];
+			if(isset($titannot)) return $titannot->GetTitle();
+		}
+		
+	}
+	
 }
 
 ?>

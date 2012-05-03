@@ -868,6 +868,18 @@ abstract class AdvanceEntityController extends EntityController
 				$cls->CreateClassFrom_SentData_By_Client(array($this, 'getActionParam'),$DS);
 				
 				$cls->Save();
+				if(count($cls->getErrors())!=0) {
+					$ErrorsToSendToClient=array();
+					foreach($cls->getErrors() as $attrname=>$err)
+					{
+						$ErrorsToSendToClient['_5F'.$attrname]=array();
+						foreach ($err as $e) $ErrorsToSendToClient['_5F'.$attrname]['errorMessage']=$e;
+					}
+					$this->SmartClientRespond(NULL,array('errors'=>$ErrorsToSendToClient),-4);
+					//$this->SmartClientRespond(NULL,array('errors'=>array('_5FTitle'=>array('errorMessage'=>'عنوان باید حتما مقدار داشته باشد'))),-4);
+					//print_r($cls->Errors);
+					die;
+				}
 				$em->flush();
 				$this->SmartClientRespond($cls->GetClassSCPropertiesInArray_Advance($DS));
 			} catch(Exception $e) {
