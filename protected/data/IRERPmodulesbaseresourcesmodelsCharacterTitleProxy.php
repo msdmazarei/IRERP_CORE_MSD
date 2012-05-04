@@ -46,6 +46,30 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
         return parent::setDescription($v);
     }
 
+    public function getAutoValidate()
+    {
+        $this->__load();
+        return parent::getAutoValidate();
+    }
+
+    public function setAutoValidate($v)
+    {
+        $this->__load();
+        return parent::setAutoValidate($v);
+    }
+
+    public function getProfile()
+    {
+        $this->__load();
+        return parent::getProfile();
+    }
+
+    public function setProfile($value)
+    {
+        $this->__load();
+        return parent::setProfile($value);
+    }
+
     public function DoctrineLoad()
     {
         $this->__load();
@@ -56,54 +80,6 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
     {
         $this->__load();
         return parent::GetGeneralConfiguration();
-    }
-
-    public function AddSaveValidation($ValidationID, $ValidationFunction)
-    {
-        $this->__load();
-        return parent::AddSaveValidation($ValidationID, $ValidationFunction);
-    }
-
-    public function RemoveSaveValidation($ValidationID)
-    {
-        $this->__load();
-        return parent::RemoveSaveValidation($ValidationID);
-    }
-
-    public function AddDeleteValidation($ValidationID, $ValidationFunction)
-    {
-        $this->__load();
-        return parent::AddDeleteValidation($ValidationID, $ValidationFunction);
-    }
-
-    public function RemoveDeleteValidation($ValidationID)
-    {
-        $this->__load();
-        return parent::RemoveDeleteValidation($ValidationID);
-    }
-
-    public function AddAddToMemberValidation($ValidationID, $ValidationFunction)
-    {
-        $this->__load();
-        return parent::AddAddToMemberValidation($ValidationID, $ValidationFunction);
-    }
-
-    public function RemoveAddToMemberValidation($ValidationID)
-    {
-        $this->__load();
-        return parent::RemoveAddToMemberValidation($ValidationID);
-    }
-
-    public function AddRemoveFromMemberValidation($ValidationID, $ValidationFunction)
-    {
-        $this->__load();
-        return parent::AddRemoveFromMemberValidation($ValidationID, $ValidationFunction);
-    }
-
-    public function RemoveRemoveFromMemberValidation($ValidationID)
-    {
-        $this->__load();
-        return parent::RemoveRemoveFromMemberValidation($ValidationID);
     }
 
     public function setHelpField($v)
@@ -256,17 +232,10 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
         return parent::GetByID($id);
     }
 
-    public function CheckValidationFor($OperationType, $Args = array (
-))
+    public function Save(array $attributes = NULL, $clearErrors = true)
     {
         $this->__load();
-        return parent::CheckValidationFor($OperationType, $Args);
-    }
-
-    public function Save()
-    {
-        $this->__load();
-        return parent::Save();
+        return parent::Save($attributes, $clearErrors);
     }
 
     public function GetClassSCPropertiesInArray_Advance(\IRERP\Basics\Descriptors\DataSource $DS)
@@ -310,6 +279,18 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
     {
         $this->__load();
         return parent::attributeNames();
+    }
+
+    public function raiseEvent($name, $event)
+    {
+        $this->__load();
+        return parent::raiseEvent($name, $event);
+    }
+
+    public function getAttributeLabel($attribute)
+    {
+        $this->__load();
+        return parent::getAttributeLabel($attribute);
     }
 
     public function rules()
@@ -382,12 +363,6 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
     {
         $this->__load();
         return parent::isAttributeSafe($attribute);
-    }
-
-    public function getAttributeLabel($attribute)
-    {
-        $this->__load();
-        return parent::getAttributeLabel($attribute);
     }
 
     public function hasErrors($attribute = NULL)
@@ -634,12 +609,6 @@ class IRERPmodulesbaseresourcesmodelsCharacterTitleProxy extends \IRERP\modules\
     {
         $this->__load();
         return parent::detachEventHandler($name, $handler);
-    }
-
-    public function raiseEvent($name, $event)
-    {
-        $this->__load();
-        return parent::raiseEvent($name, $event);
     }
 
     public function evaluateExpression($_expression_, $_data_ = array (

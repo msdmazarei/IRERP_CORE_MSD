@@ -24,6 +24,9 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use IRERP\Basics\EntityController;
 abstract class AdvanceEntityController extends EntityController
 {
+	const ValidationError=-4;
+	const Failure=-1;
+	
 		public $layout='//layouts/main';
 
 		protected $GeneralActionValidators = array(
@@ -846,6 +849,28 @@ abstract class AdvanceEntityController extends EntityController
 		return array($ret,$reval);
 	}
 	
+	protected function SendErrorToClient($ErrorType=self::ValidationError,$Errors=array())
+	{
+		switch($ErrorType)
+		{
+			case self::ValidationError:
+				$ErrorsToSendToClient=array();
+				foreach($Errors as $attrname=>$err)
+					{
+						$ConvertAttrNameToClientSideFieldName='_5F'.$attrname;
+						$ErrorsToSendToClient[$ConvertAttrNameToClientSideFieldName]=array();
+						foreach ($err as $e) 
+							$ErrorsToSendToClient[$ConvertAttrNameToClientSideFieldName]['errorMessage']=$e;
+					}
+					$this->SmartClientRespond(NULL,array('errors'=>$ErrorsToSendToClient),-4);
+				break;
+			case self::Failure:
+				break;
+			
+			
+				
+		}
+	}
 
 		protected function AddRecord($Profile)
 		{
@@ -863,25 +888,15 @@ abstract class AdvanceEntityController extends EntityController
 				$DS = GenerationHelper::GetDataSource($className, $Profile);
 				$r = new \ReflectionClass($className);
 				$cls=$r->newInstance();
-				
-				
 				$cls->CreateClassFrom_SentData_By_Client(array($this, 'getActionParam'),$DS);
-				
 				$cls->Save();
-				if(count($cls->getErrors())!=0) {
-					$ErrorsToSendToClient=array();
-					foreach($cls->getErrors() as $attrname=>$err)
-					{
-						$ErrorsToSendToClient['_5F'.$attrname]=array();
-						foreach ($err as $e) $ErrorsToSendToClient['_5F'.$attrname]['errorMessage']=$e;
-					}
-					$this->SmartClientRespond(NULL,array('errors'=>$ErrorsToSendToClient),-4);
-					//$this->SmartClientRespond(NULL,array('errors'=>array('_5FTitle'=>array('errorMessage'=>'عنوان باید حتما مقدار داشته باشد'))),-4);
-					//print_r($cls->Errors);
-					die;
+				if(count($cls->getErrors())!=0) 
+					$this->SendErrorToClient(self::ValidationError,$cls->Errors);
+				else
+				{
+					$em->flush();
+					$this->SmartClientRespond($cls->GetClassSCPropertiesInArray_Advance($DS));
 				}
-				$em->flush();
-				$this->SmartClientRespond($cls->GetClassSCPropertiesInArray_Advance($DS));
 			} catch(Exception $e) {
 				throw $e;
 				//$this->SmartClientRespond(array("Name"=>array("errorMessage"=>$e->getMessage())), NULL, '-1');

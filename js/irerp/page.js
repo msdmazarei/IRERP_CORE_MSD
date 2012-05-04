@@ -164,9 +164,33 @@ IRERPJS_Page.prototype.ShowDetailDVS = function (Detailid){
 	_DVS.getGrid().fetchData({HelpField:Masterid});
 	
 }
+IRERPJS_Page.prototype.onReceiveData   = function(dsResponse, data, dsRequest,sender)
+{
+	var sendertype = sender.__proto__.Class;
+	switch(dsResponse.status){
+	case -4:
+		//Validation Error
+		if(sendertype=="DynamicForm"){
+			sender.setErrors(dsResponse.errors,true);
+			this.GeneralEnableDisable(sender.IRERPDVS, true, false, false, true, false, true);
+		}
+		break;
+	case 0:
+		//On Successful
+		break;
+	}
+}
+IRERPJS_Page.prototype.AfterUpdateData = function(dsResponse, data, dsRequest,sender){
+	this.onReceiveData(dsResponse, data, dsRequest, sender);
+	
+}
+IRERPJS_Page.prototype.AfterAddData    = function(dsResponse,data,dsRequest,sender){
+	this.onReceiveData(dsResponse, data, dsRequest, sender);
+}
 
 IRERPJS_Page.prototype.SaveForm = function (Form){
 	
+	var closurethis=this;
 	// Detect Type Of Form DVS
 	/**
 	 * @type IRERPJS_DataViewSection
@@ -174,8 +198,17 @@ IRERPJS_Page.prototype.SaveForm = function (Form){
 	var DVS = Form.IRERPDVS;
 	if(DVS.getID()==this.getMaster().getID()){
 		// Master Form
-		 if(Form.isNewRecord ()) Form.saveData();
-		 else (eval(Form.dataSource)).updateData(Form.getValues());
+		 if(Form.isNewRecord ()) 
+			 (eval(Form.dataSource))
+			 .addData(Form.getValues(),function(){
+				 closurethis.AfterAddData(arguments[0],arguments[1],arguments[2],Form);
+			 });
+		 
+		 else 
+			 (eval(Form.dataSource)).updateData(Form.getValues(),function(){
+				 closurethis.AfterAddData(arguments[0],arguments[1],arguments[2],Form);
+			 });
+		 
 	}else if (this.getDetailByID(DVS.getID())!=null){
 		// Detail Form
 		// Detail Form Must Send HelpField To Server
@@ -187,10 +220,14 @@ IRERPJS_Page.prototype.SaveForm = function (Form){
 		if(Form.isNewRecord()) 
 		{
 			Datas.HelpField=Form.HelpField;
-			eval(Form.dataSource).addData(Datas);
+			eval(Form.dataSource).addData(Datas,function(){
+				 closurethis.AfterAddData(arguments[0],arguments[1],arguments[2],Form);
+			 });
 		} 
 		else 
-			eval(Form.dataSource).updateData(Datas);
+			eval(Form.dataSource).updateData(Datas,function(){
+				 closurethis.AfterAddData(arguments[0],arguments[1],arguments[2],Form);
+			 });
 	}
 	
 }

@@ -359,9 +359,9 @@ class GenerationHelper extends HelperBaseClass
 						if($f->getFieldName()!='id')
 						if(key_exists($_clsIRUseAsProfile, $propannots)){
 							$propUSEASPROFILE= $propannots[$_clsIRUseAsProfile];
-							if(isset($propUSEASPROFILE->PrefixTitle)) $f->setTitle($propUSEASPROFILE->PrefixTitle . $f->getTitle());
-							if(isset($propUSEASPROFILE->PostfixTitle)) $f->setTitle($f->getTitle() . $propUSEASPROFILE->PostfixTitle);
-							if(isset($propUSEASPROFILE->ExactTitle)) $f->setTitle($propUSEASPROFILE->ExactTitle);
+							if(isset($propUSEASPROFILE->PrefixTitle)) $f->setTitle($propUSEASPROFILE->PrefixTitle->GetTitle() . $f->getTitle());
+							if(isset($propUSEASPROFILE->PostfixTitle)) $f->setTitle($f->getTitle() . $propUSEASPROFILE->PostfixTitle->GetTitle());
+							if(isset($propUSEASPROFILE->ExactTitle)) $f->setTitle($propUSEASPROFILE->ExactTitle->GetTitle());
 							
 						}
 						if($f->getFieldName()=='id'){

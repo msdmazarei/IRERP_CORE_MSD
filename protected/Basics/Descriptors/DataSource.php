@@ -151,6 +151,7 @@ class DataSource extends DescriptorBase
     					removeDataURL:"'.$this->getremoveURL().'"';
 				$str.=",handleError:function(response,request){";
 				$str.="";
+				$str.="";
 				$str.="}";
 				$str.=' ,});';
 				return $str;

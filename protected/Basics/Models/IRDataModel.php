@@ -1,5 +1,7 @@
 <?php
 namespace IRERP\Basics\Models;
+use Doctrine\ORM\EntityManager;
+
 use IRERP\Basics\IREvent;
 
 use IRERP\Utils\T;
@@ -376,8 +378,8 @@ class IRDataModel extends CModel
 	public function CreateClassFrom_SentData_By_Client($functionName,DataSource $DS,array $ExceptParams=NULL){
 		foreach ($DS->getFields() as $f)
 		{
-			
-			$FieldName=\ApplicationHelpers::TranslateFieldName_From_Client2Server($f->getFieldName());
+			$ClientFieldName=$f->getFieldName();
+			$FieldName=\ApplicationHelpers::TranslateFieldName_From_Client2Server($ClientFieldName);
 			$propname='';
 			if(strpos($FieldName, '\\')>-1)
 			{
@@ -388,7 +390,7 @@ class IRDataModel extends CModel
 					case 2:
 						$propname=$parts[1];
 						if(isset($ExceptParams)) if(key_exists($propname, $ExceptParams)) continue;
-						$this->$propname= call_user_func($functionName,$FieldName);
+						$this->$propname= call_user_func($functionName,$ClientFieldName);
 						break;
 					case 3:
 						if($parts[2]=='id'){
@@ -396,7 +398,7 @@ class IRDataModel extends CModel
 							$propname=$parts[1];
 							// Get Target Class Name
 							$clsdesc= \ApplicationHelpers::GetClassAnnots(get_class($this),$DS->getProfile());
-							$ClientFieldValue= call_user_func($functionName,$FieldName);
+							$ClientFieldValue= call_user_func($functionName,$ClientFieldName);
 							if(key_exists($propname, $clsdesc))
 								if(
 									key_exists(get_class(new IRInternalType(array())),
@@ -423,7 +425,8 @@ class IRDataModel extends CModel
 					case 1:
 						$propname=$parts[0];
 						if(isset($ExceptParams)) if(key_exists($propname, $ExceptParams)) continue;
-						$this->$propname= call_user_func($functionName,$FieldName);
+						$FieldName=$f->getFieldName();
+						$this->$propname= call_user_func($functionName,$ClientFieldName);
 						break;
 					case 2:
 						if($parts[1]=='id'){
@@ -432,7 +435,7 @@ class IRDataModel extends CModel
 							// Get Target Class Name
 							//$clsdesc= ApplicationHelpers::GetClassAnnots(get_class($this),$DS->getProfile());
 							$clsdesc = AnnotationHelper::GetClassAnnotations(get_class($this), $DS->getProfile());
-							$ClientFieldValue= call_user_func($functionName,$f->getFieldName());
+							$ClientFieldValue= call_user_func($functionName,$ClientFieldName);
 
 							if(key_exists($propname, $clsdesc['Properties']))
 								if(
@@ -505,7 +508,7 @@ class IRDataModel extends CModel
 		$this->getEntityManager()->persist($this);
 	}
 	
-	public function Save(array $attributes=NULL,$clearErrors=true)
+	public function Save(EntityManager $em=NULL,array $attributes=NULL,$clearErrors=true)
 	{
 		/**
 		 * 
@@ -955,7 +958,11 @@ public function __construct($em=NULL)
 		else
 		return self::$_names[$className];
 	}
-
+	
+	public function ConvertErrorAttrNameToClientDSFieldName($AttrName,$DS)
+	{
+		
+	}
 /**************************
  * Override Functions
  */

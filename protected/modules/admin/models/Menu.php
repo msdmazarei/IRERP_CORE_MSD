@@ -43,7 +43,7 @@ class Menu extends IRDataModel
 	 * -----------
 	 * @IRUseInClientDS
 	 * @IRRequire
-	 * @IRTitle(TitleType="STRING",Value="عنوان منو")
+	 * @IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Title")
 	 * @IRPropertyType(Type="string")
 	 */
 	protected $_Title;
@@ -57,7 +57,7 @@ class Menu extends IRDataModel
 	 * Client Side Definations
 	 * -----------
 	 * @IRUseInClientDS(NotForProfile="SIMPLE")
-	 * @IRTitle(TitleType="STRING",Value="شمایل")
+	 * @IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Icon")
 	 * @IRPropertyType(Type="string")
 	 */
 	protected $_Icon;
@@ -71,11 +71,11 @@ class Menu extends IRDataModel
 	 * Client Side Definations
 	 * -----------
 	 * @IRUseInClientDS(NotForProfile="SIMPLE")
-	 * @IRTitle(TitleType="STRING",Value="منو پدر")
+	 * @IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Parent")
 	 * -----------
 	 * Internal Relation Definations
 	 * -----------
-	 * @IRUseAsProfile(TargetProfile="SIMPLE")
+	 * @IRUseAsProfile(TargetProfile="SIMPLE",PostfixTitle=@IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Parent"))
 	 * @IRInternalType(ClassName="\IRERP\modules\admin\models\Menu",RelationType="Simple") 
 	 */
 	protected $_Parent;
@@ -95,7 +95,7 @@ class Menu extends IRDataModel
 	 * Client Side Definations
 	 * -----------
 	 * @IRUseInClientDS(NotForProfile="SIMPLE")
-	 * @IRTitle(TitleType="STRING",Value="دستور")
+	 * @IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Command")
 	 * @IRPropertyType(Type="string")
 	 */
 	protected $_Command;
