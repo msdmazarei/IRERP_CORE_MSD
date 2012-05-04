@@ -374,6 +374,4 @@ class IRController extends CController
         $rtn.="  ]}	";
         return $rtn;
 	}
-}
-	
-
+}?>

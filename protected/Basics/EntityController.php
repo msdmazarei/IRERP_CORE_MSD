@@ -727,4 +727,4 @@ abstract class EntityController extends \IRController
 		);
 	}
 	*/
-}
+}?>

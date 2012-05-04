@@ -33,6 +33,10 @@ require_once \Yii::app()->basePath . '/Basics/Annotations/UI/IREnumRelation.php'
 require_once \Yii::app()->basePath . '/Basics/Annotations/UI/IRInternalType.php';
 require_once \Yii::app()->basePath . '/Basics/Annotations/UI/IRPickListDisplayField.php';
 require_once \Yii::app()->basePath . '/Basics/Annotations/UI/IRDetailViewDefines.php';
+require_once \Yii::app()->basePath . '/Basics/Annotations/Validation/IRValidationBaseAnnot.php';
+require_once \Yii::app()->basePath . '/Basics/Annotations/Validation/IRVRequire.php';
+
+
 
 
 /**

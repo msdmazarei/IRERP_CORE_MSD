@@ -27,3 +27,4 @@ class adminModule extends IRWebModule
 			return false;
 	}
 }
+?>

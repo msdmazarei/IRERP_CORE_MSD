@@ -15,8 +15,10 @@ IRERP\Basics\Annotations\UI\IRUseAsProfile,
 IRERP\Basics\Annotations\UI\IRPrimaryKey,
 IRERP\Basics\Annotations\UI\IRHidden,
 IRERP\Basics\Annotations\UI\IREnumRelation,
-\IRERP\Basics\Annotations\UI\IRRequire,
-\IRERP\Basics\Annotations\UI\IRInternalType
+IRERP\Basics\Annotations\UI\IRRequire,
+IRERP\Basics\Annotations\UI\IRInternalType,
+IRERP\Basics\Annotations\Validation\IRVRequire
+
 ;
 
 use Doctrine\ORM\Mapping\Column;
@@ -42,9 +44,9 @@ class Menu extends IRDataModel
 	 * Client Side Definations
 	 * -----------
 	 * @IRUseInClientDS
-	 * @IRRequire
 	 * @IRTitle(TitleType="TRANS",TransCat="IRERP",TransMsg="modules.admin.models.Menu.Title")
 	 * @IRPropertyType(Type="string")
+	 * @IRVRequire
 	 */
 	protected $_Title;
 	public function getTitle(){return $this->_Title;}
@@ -102,15 +104,7 @@ class Menu extends IRDataModel
 	public function getCommand(){return $this->_Command;}
 	public function setCommand($value){$this->_Command=$value;}
 	
-	/****************************
-	 * Overrided Functions
-	 */
-	public function rules()
-	{
-	    return array(
-	        array('Title', 'required'),
-	    );
-	}
+
 	
 }
 ?>

@@ -857,7 +857,7 @@ abstract class AdvanceEntityController extends EntityController
 				$ErrorsToSendToClient=array();
 				foreach($Errors as $attrname=>$err)
 					{
-						$ConvertAttrNameToClientSideFieldName='_5F'.$attrname;
+						$ConvertAttrNameToClientSideFieldName= GenerationHelper::GetClientFieldName($attrname);
 						$ErrorsToSendToClient[$ConvertAttrNameToClientSideFieldName]=array();
 						foreach ($err as $e) 
 							$ErrorsToSendToClient[$ConvertAttrNameToClientSideFieldName]['errorMessage']=$e;
@@ -866,9 +866,6 @@ abstract class AdvanceEntityController extends EntityController
 				break;
 			case self::Failure:
 				break;
-			
-			
-				
 		}
 	}
 

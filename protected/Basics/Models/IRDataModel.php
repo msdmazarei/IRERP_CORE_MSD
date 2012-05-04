@@ -1,5 +1,9 @@
 <?php
 namespace IRERP\Basics\Models;
+use IRERP\Basics\Annotations\Validation\IRVRequire;
+
+use IRERP\Utils\GenerationHelper;
+
 use Doctrine\ORM\EntityManager;
 
 use IRERP\Basics\IREvent;
@@ -987,7 +991,44 @@ public function __construct($em=NULL)
 		}
 		
 	}
+	public function validate($attributes=array(),$ClearErrors=true)
+	{
+		$rtn=true;
+		$_IRVRequire=get_class(new IRVRequire(array()));
+		$_IRTitle = get_class(new IRTitle(array()));
+		
+		$profile = $this->Profile;
+		if(!isset($profile)) $profile='GENERAL';
+		//Get DS
+		$Annots = AnnotationHelper::GetClassAnnotations(get_class($this), $profile);
+		//Check for all Properties
+		foreach ($Annots['Properties'] as $propname=>$propannot){
+			//Get Validation
+			if(isset($propannot[$_IRVRequire])){
+				$validator = $propannot[$_IRVRequire];
+				/**
+				 * 
+				 * Property Title
+				 * @var string
+				 * FIXME:: May be cause some problem using this algorithm 
+				 * cause we direct use annotation to get Title
+				 */
+				$proptitle='';
+				$proptitle=$propannot[$_IRTitle];
+				if(isset($proptitle))
+					$proptitle = $proptitle->GetTitle(); 
+				else 	
+					$proptitle = '';
+				$rtn= $rtn & $validator->isValid($this,$propname,$proptitle,$this->$propname,NULL);
+			}
+		}
+		//Check for class
+		$rtn = $rtn && parent::validate($attributes,$ClearErrors);
+		return $rtn;
+	}
 	
 }
-
 ?>
+
+
+
